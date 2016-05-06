@@ -1,0 +1,142 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+## Ubuntu 12.10 64 bit
+config.vm.define "utopic" do |precise|
+
+  precise.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+  end
+
+  precise.vm.box = "larryli/utopic64"
+  precise.vm.network "forwarded_port", guest: 80, host: 81
+  precise.vm.network "private_network", ip: "192.168.33.12"
+  precise.ssh.forward_agent = true
+end
+
+## Ubuntu 12.04 64 bit
+config.vm.define "precise" do |precise|
+
+  precise.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+  end
+
+  precise.vm.box = "ubuntu/precise64"
+#  precise.vm.network "forwarded_port", guest: 80, host: 81
+  precise.vm.network "private_network", ip: "192.168.33.12"
+  precise.ssh.forward_agent = true
+
+end
+
+# Ubuntu 12.04 32 bit
+config.vm.define "precise32" do |precise32|
+  precise32.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+  end
+  precise32.vm.box = "ubuntu/precise32"
+  precise32.vm.network "forwarded_port", guest: 80, host: 82
+  precise32.vm.network "private_network", ip: "192.168.33.13"
+  precise32.ssh.forward_agent = true
+end
+
+# Ubuntu 14.04 64 bit
+config.vm.define "trusty" do |trusty|
+  trusty.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+  end
+  trusty.vm.box = "ubuntu/trusty64"
+ # trusty.vm.network "forwarded_port", guest: 80, host: 83
+  trusty.vm.network "private_network", ip: "192.168.33.24"
+  trusty.ssh.forward_agent = true
+end
+
+# Ubuntu 14.04 32 bit
+config.vm.define "trusty32" do |trusty32|
+  trusty32.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+  end
+  trusty32.vm.box = "ubuntu/trusty32"
+  trusty32.vm.network "forwarded_port", guest: 80, host: 84
+  trusty32.vm.network "private_network", ip: "192.168.33.15"
+  trusty32.ssh.forward_agent = true
+end
+
+# Debian 6 64 bit
+config.vm.define "squeeze" do |squeeze|
+  squeeze.vm.provider "virtualbox" do |v|
+      v.memory = 512
+  end
+  squeeze.vm.box = "dene/debian-squeeze"
+  squeeze.vm.network "forwarded_port", guest: 80, host: 85
+  squeeze.vm.network "private_network", ip: "192.168.33.5"
+  squeeze.ssh.forward_agent = true
+end
+
+config.vm.define "jessie" do |squeeze|
+  squeeze.vm.provider "virtualbox" do |v|
+      v.memory = 512
+  end
+  squeeze.vm.box = "deb/jessie-amd64"
+  squeeze.vm.network "private_network", ip: "192.168.33.40"
+  squeeze.vm.provision "bootstrap", type: "shell" do |s|
+    s.inline = "git clone git@github.com:williejackson/Composer-Abernathy.git"
+  end
+  squeeze.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
+  squeeze.ssh.forward_agent = true
+end
+
+# Debian 6 32 bit
+config.vm.define "squeeze32" do |squeeze32|
+  squeeze32.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+  end
+  squeeze32.vm.box = "chef/debian-6.0.10-i386"
+  squeeze32.vm.network "forwarded_port", guest: 80, host: 89
+  squeeze32.vm.network "private_network", ip: "192.168.33.6"
+  squeeze32.ssh.forward_agent = true
+end
+
+# Debian 7 64 bit
+config.vm.define "wheezy" do |wheezy|
+  wheezy.vm.provider "virtualbox" do |v|
+      v.memory = 512
+  end
+  wheezy.vm.box = "chef/debian-7.6"
+  wheezy.vm.network "forwarded_port", guest: 80, host: 89
+  wheezy.vm.network "private_network", ip: "192.168.33.7"
+  wheezy.ssh.forward_agent = true
+end
+
+# Debian 7 32 bit
+config.vm.define "wheezy32" do |wheezy32|
+  wheezy32.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+  end
+  wheezy32.vm.box = "chef/debian-7.6-i386"
+  wheezy32.vm.network "forwarded_port", guest: 80, host: 88
+  wheezy32.vm.network "private_network", ip: "192.168.33.8"
+  wheezy32.ssh.forward_agent = true
+end
+
+config.vm.define "jessie64" do |jessie64|
+  jessie64.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+  end
+  jessie64.vm.box = "debian/jessie64"
+  jessie64.ssh.forward_agent = true
+end
+config.vm.define "jessie32" do |jessie32|
+  jessie32.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+  end
+  jessie32.vm.box = "boxcutter/debian80-i386"
+  jessie32.ssh.forward_agent = true
+end
+
+
+end
